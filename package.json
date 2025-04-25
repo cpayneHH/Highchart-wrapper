@@ -10,7 +10,7 @@
   "repository": "git@github.com:cpayneHH/HomewoodHealth-Highchart-wrapper.git",
   "author": "Chad Payne <cpayne@homewoodhealth.com>",
   "private": false,
-  "license": "Proprietary",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist"
   },
