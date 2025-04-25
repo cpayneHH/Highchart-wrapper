@@ -36,3 +36,12 @@ storybook-static/
 
 # Auto-generated API docs (if used)
 docs/
+
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+*storybook.log

@@ -1,8 +1,22 @@
 {
   "compilerOptions": {
+    // Emit declarations only, into dist/
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
+
+    // Target modern JS so you get flatMap, etc.
+    "target": "ES2019",
+    "lib": ["ES2019", "DOM"],
+
+    // Use native ESM and Node-style resolution for `import 'vue'`
+    "module": "ESNext",
+    "moduleResolution": "Node",
+
+    // Allow default-import interop and skip checking @types for speed
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }
