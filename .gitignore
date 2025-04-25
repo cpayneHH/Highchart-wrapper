@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+
+# Vite build output
+dist/
+coverage/
+
+# Optional: test results
+*.log
+*.tsbuildinfo
+
+# Local env files
+.env
+.env.*.local
+
+# Editor configs
+.vscode/
+.idea/
+.DS_Store
+
+# Mac system files
+Thumbs.db
+
+# npm/yarn/pnpm lock file backups
+package-lock.json.*
+yarn.lock.*
+pnpm-lock.yaml.*
+
+# Optional: Ignore local test/dev output
+playwright-report/
+*.local.js
+*.local.ts
+
+# Storybook build (if used)
+storybook-static/
+
+# Auto-generated API docs (if used)
+docs/
