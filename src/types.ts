@@ -1,4 +1,4 @@
-import type { Options as HighchartsOptions } from 'highcharts';
+import Highcharts from 'highcharts';
 
 /**
  * Defines a url endpoint to request data from.
@@ -23,8 +23,10 @@ export interface BlockItem {
     id: string;
     /** The type of block to render. */
     type: BlockType;
+    /** The main title text. */
+    title: string;
     /** Configuration options for the block. */
-    options: HighchartsOptions | CalloutOptions | TitleOptions;
+    options: Highcharts.SeriesOptions | CalloutOptions | TitleOptions;
 }
 
 /**
@@ -32,7 +34,7 @@ export interface BlockItem {
  */
 export interface CalloutOptions {
     /** The heading text displayed prominently in the callout. */
-    title: string;
+    title?: string;
     /** Additional descriptive text for the callout. */
     description: string;
 }
@@ -42,7 +44,7 @@ export interface CalloutOptions {
  */
 export interface TitleOptions {
     /** The main title text. */
-    title: string;
+    title?: string;
     /** Optional subtitle or description below the title. */
     description?: string;
 }
@@ -76,7 +78,7 @@ export interface GridLayoutProps {
  */
 export interface WrapperProps {
     /** The title displayed at the top of the wrapper. */
-    title: string;
+    title?: string;
     /** Optional API endpoint to fetch blocks if `items` is empty. */
     endpoint?: APIEndpoint;
     /** Optional array of blocks to render. */

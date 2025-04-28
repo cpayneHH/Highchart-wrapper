@@ -1,14 +1,15 @@
+<!-- src/blocks/HighchartBlock.vue -->
 <template>
-  <highcharts :options="options" class="dashboard-tile-shadow"></highcharts>
+  <Chart :options="options" class="dashboard-tile-shadow"></Chart>
 </template>
 
-<script lang="ts" setup>
-import {defineProps} from 'vue';
-import * as highcharts from "highcharts";
-import type {Options as HighchartsOptions} from 'highcharts';
+<script setup lang="ts">
+import { defineProps } from 'vue';
+import { Chart } from 'highcharts-vue';
+import type { Options as HighchartsOptions } from 'highcharts';
 
+// Just grab whatever props the story gives you
 const options = defineProps<HighchartsOptions>();
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
