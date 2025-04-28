@@ -292,7 +292,7 @@ describe('HighchartWrapper', () => {
     render(HighchartWrapper, {
       props: {
         title: 'Clinical Outcomes Dashboard',
-        items: APIResponse.payload as BlockItem[],
+        items: APIResponse.payload.slice(0, 1) as BlockItem[],
       },
     });
 

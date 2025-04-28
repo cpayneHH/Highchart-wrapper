@@ -1407,7 +1407,7 @@ __metadata:
     typescript: "npm:^5.8.3"
     vite: "npm:^6.3.3"
     vitest: "npm:^3.1.2"
-    vue: "npm:^3.5.13"
+    vue: "npm:^3.3.11"
     vue-tsc: "npm:^2.2.10"
   peerDependencies:
     "@popperjs/core": ^2.11.8
@@ -5383,7 +5383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.5.13":
+"vue@npm:^3.3.11":
   version: 3.5.13
   resolution: "vue@npm:3.5.13"
   dependencies:
