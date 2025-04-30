@@ -1,6 +1,6 @@
 <!-- src/HighchartWrapper.vue -->
 <template>
-  <div class="highchart-wrapper">
+  <div class="highchart-wrapper container">
     <!-- Always show the title title -->
     <h2 v-if="props?.title">{{ props.title }}</h2>
 
@@ -17,24 +17,25 @@
 
     <template v-else-if="!shouldShowFallback || hasData">
       <!-- If a non-empty layout was provided, use the grid-based layout -->
-      <GridLayout v-if="props.layout?.length" :layout="props.layout" :items="dataItems" />
+      <GridLayout v-if="props.layout?.length" :layout="props.layout" :items="dataItems">
+      </GridLayout>
 
       <!-- Otherwise, render items one-by-one in the default BlockRenderer -->
-      <BlockRenderer v-else :items="dataItems" />
+      <BlockRenderer v-else :items="dataItems"/>
     </template>
 
     <template v-else>
       <div class="fallback-message p-4 text-center text-gray-500">
-        Please provide an items object or API endpoint to obtain data from.
+        Please provide an items array of objects or API endpoint to obtain data from.
       </div>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, onMounted, ref } from 'vue';
-import type { BlockItem, WrapperProps } from './types';
-import { fetchItems } from './services/api';
+import {computed, defineProps, onMounted, ref} from 'vue';
+import type {BlockItem, WrapperProps} from './types';
+import {fetchItems} from './services/api';
 
 import GridLayout from './components/GridLayout.vue';
 import BlockRenderer from './components/BlockRenderer.vue';
@@ -54,6 +55,7 @@ onMounted(async () => {
   if ((!props.items || props.items.length === 0) && props.endpoint) {
     isLoading.value = true;
     isError.value = false;
+
     try {
       const responses = await fetchItems(props.endpoint);
       // flat‐map all of their payload arrays into dataItems
@@ -108,5 +110,17 @@ async function reloadData() {
 
 .dashboard-tile-shadow {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.font-size-md {
+  font-size: 1.24875rem;
+}
+
+.font-size-xs {
+  font-size: 0.86625rem;
+}
+
+.text-grey-darkest {
+  color: #474747;
 }
 </style>

@@ -292,7 +292,15 @@ describe('HighchartWrapper', () => {
     render(HighchartWrapper, {
       props: {
         title: 'Clinical Outcomes Dashboard',
-        items: APIResponse.payload.slice(0, 1) as BlockItem[],
+        items: [APIResponse.payload[0]] as BlockItem[],
+      },
+      global: {
+        stubs: {
+          // stub <highcharts> so it never calls Highcharts.init()
+          highcharts: {
+            template: '<div class="highcharts-stub" />',
+          },
+        },
       },
     });
 
