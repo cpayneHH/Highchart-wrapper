@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps} from 'vue';
 import {BlockItem} from '../types';
 import TitleBlock from '../blocks/TitleBlock.vue';
 import CalloutBlock from '../blocks/CalloutBlock.vue';

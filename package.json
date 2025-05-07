@@ -13,6 +13,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "test": "vitest",
     "lint": "eslint --ext .js,.ts,.vue src",
@@ -26,6 +27,7 @@
     "vue": "^3.3.11"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.11.8",
     "@testing-library/vue": "^8.1.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
@@ -39,7 +41,6 @@
     "highcharts": "^11.4.8",
     "highcharts-vue": "^1.4.3",
     "jsdom": "^26.1.0",
-    "msw": "^2.7.5",
     "playwright": "^1.52.0",
     "prettier": "^3.5.3",
     "sass": "^1.63.0",

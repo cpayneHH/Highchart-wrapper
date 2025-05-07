@@ -1,18 +1,17 @@
 <template>
   <div v-for="(row, rowIndex) in props.layout" :key="rowIndex" class="row">
     <div
-      v-for="(el, id) in getContentRowData(rowIndex, row.length)"
-      class="my-2"
-      :class="'col-lg-' + getColNum(row, id)"
+        v-for="(el, id) in getContentRowData(rowIndex, row.length)"
+        class="my-2"
+        :class="'col-lg-' + getColNum(row, id)"
     >
-      <BlockRenderer :items="[el]" />
+      <BlockRenderer :items="[el]"/>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { GridLayoutProps } from '../types';
-import { defineEmits, defineProps } from 'vue';
+import type {GridLayoutProps} from '../types';
 import BlockRenderer from './BlockRenderer.vue';
 
 const props = defineProps<GridLayoutProps>();

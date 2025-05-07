@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, defineProps, onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import type {BlockItem, WrapperProps} from './types';
 import {fetchItems} from './services/api';
 
@@ -91,36 +91,3 @@ async function reloadData() {
   }
 }
 </script>
-
-<style>
-/* Component styles */
-.highcharts-container {
-  .highcharts-root {
-    padding: 1rem;
-  }
-
-  .highcharts-credits {
-    display: none !important;
-  }
-}
-
-.dashboard-tile-height {
-  height: 400px;
-}
-
-.dashboard-tile-shadow {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-}
-
-.font-size-md {
-  font-size: 1.24875rem;
-}
-
-.font-size-xs {
-  font-size: 0.86625rem;
-}
-
-.text-grey-darkest {
-  color: #474747;
-}
-</style>
