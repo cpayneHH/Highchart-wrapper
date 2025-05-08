@@ -37,9 +37,92 @@ Use the component in your templates:
 
 <HighchartWrapper
         title="Sales Overview"
-        :items="chartData"
         endpoint="https://api.example.com/data"
 />
+```
+
+Or raw items using this prop.
+
+```html
+
+<HighchartWrapper
+        title="Sales Overview"
+        items="[{...}, {...}]"
+/>
+```
+
+Both the api or raw items need to following the following object shapes.
+
+```javascript
+const data = {
+  "id": 1, // Any unique id for the instance of the chart. ( this is used for :key values in vue3 )
+  "type": "chart",  // One of the three types of blocks chart, callout, Tile block
+  "options": {} // The object that defines the chart or a simple object for callout and tile block 
+}
+```
+
+For example, here is a simple Highcharts options definition:
+See here for additional [documentation](https://www.highcharts.com/docs/chart-and-series-types/chart-types)
+
+```javascript
+const options = {
+  chart: {
+    type: 'column'
+  },
+  title: {
+    text: 'Corn vs wheat estimated production for 2023'
+  },
+  subtitle: {
+    text:
+        'Source: <a target="_blank" ' +
+        'href="https://www.indexmundi.com/agriculture/?commodity=corn">indexmundi</a>'
+  },
+  xAxis: {
+    categories: ['USA', 'China', 'Brazil', 'EU', 'Argentina', 'India'],
+    crosshair:
+        true,
+    accessibility:
+        {
+          description: 'Countries'
+        }
+  },
+  yAxis: {
+    min: 0,
+    title:
+        {
+          text: '1000 metric tons (MT)'
+        }
+  },
+  tooltip: {
+    valueSuffix: ' (1000 MT)'
+  },
+  plotOptions: {
+    column: {
+      pointPadding: 0.2,
+      borderWidth:
+          0
+    }
+  },
+  series: [
+    {
+      name: 'Corn',
+      data: [387749, 280000, 129000, 64300, 54000, 34300]
+    },
+    {
+      name: 'Wheat',
+      data: [45321, 140000, 10000, 140500, 19500, 113500]
+    }
+  ]
+}
+```
+
+And here are the two alternative blocks currently supported
+
+```javascript
+const options = {
+  title: 'Fantastic Layout and Charts',
+  description: 'Three block types, grid based layout system.'
+}
 ```
 
 ## ⚙️ Props
