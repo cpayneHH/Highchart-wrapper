@@ -1,6 +1,6 @@
 # Highchart / Block Layout Wrapper
 
-![CI](https://github.com/your-username/your-repo-name/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/cpayneHH/Highchart-wrapper/actions/workflows/ci.yml/badge.svg)
 
 A lightweight Vue 3 component that simplifies the integration of Highcharts into your page layouts. It supports dynamic
 data sources, including remote APIs, and allows for conditional loading of Highcharts modules to optimize performance.
