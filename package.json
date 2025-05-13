@@ -16,6 +16,7 @@
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "test": "vitest",
+    "msw": "node ./node_modules/msw/lib/cli/index.js init public/",
     "lint": "eslint --ext .js,.ts,.vue src",
     "lint:fix": "eslint --ext .js,.ts,.vue src --fix",
     "format": "prettier --write \"**/*.{js,ts,vue,json,md}\""
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@popperjs/core": "^2.11.8",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/vue": "^8.1.0",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
@@ -43,6 +45,7 @@
     "highcharts": "^11.4.8",
     "highcharts-vue": "^1.4.3",
     "jsdom": "^26.1.0",
+    "msw": "^2.8.2",
     "playwright": "^1.52.0",
     "prettier": "^3.5.3",
     "sass": "^1.63.0",

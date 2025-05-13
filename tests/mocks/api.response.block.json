@@ -1,0 +1,115 @@
+{
+  "status": "SUCCESS",
+  "message": "success",
+  "attributes": [
+    {
+      "name": "system-version",
+      "value": "@BUILDNUMBER@"
+    },
+    {
+      "name": "response-timestamp",
+      "value": 1745860813
+    },
+    {
+      "name": "requester-ip",
+      "value": "::1"
+    }
+  ],
+  "payload": [
+    {
+      "id": 1,
+      "type": "chart",
+      "options": {
+        "chart": {
+          "type": "column"
+        },
+        "title": {
+          "text": "Symptom Severity Change"
+        },
+        "xAxis": {
+          "title": {
+            "text": "Percent"
+          }
+        },
+        "yAxis": {
+          "title": {
+            "text": "Percent"
+          }
+        },
+        "plotOptions": {
+          "column": {
+            "stacking": "percent",
+            "dataLabels": {
+              "enabled": true,
+              "format": "{point.percentage:.1f}%",
+              "filter": {
+                "operator": ">",
+                "property": "percentage",
+                "value": 10
+              }
+            }
+          }
+        },
+        "colors": [
+          "#006C95",
+          "#241E45",
+          "#3F357A",
+          "#B31166",
+          "#F7F6F7"
+        ],
+        "series": [
+          {
+            "name": "Moderately severe depression symptoms",
+            "data": [
+              434,
+              290,
+              37
+            ]
+          },
+          {
+            "name": "Significant weight loss",
+            "data": [
+              272,
+              153,
+              156
+            ]
+          },
+          {
+            "name": "Psychomotor retardation",
+            "data": [
+              13,
+              7,
+              22
+            ]
+          },
+          {
+            "name": "Fatigue or loss of energy",
+            "data": [
+              55,
+              35,
+              41
+            ]
+          }
+        ],
+        "responsive": {
+          "rules": [
+            {
+              "condition": {
+                "maxWidth": 576
+              },
+              "chartOptions": {
+                "plotOptions": {
+                  "column": {
+                    "dataLabels": {
+                      "enabled": false
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

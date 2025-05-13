@@ -4,10 +4,12 @@
     <!-- Always show the title title -->
     <h2 v-if="props?.title">{{ props.title }}</h2>
 
+    <!-- isLoading data -->
     <template v-if="isLoading">
       <div class="p-4 text-center text-gray-400">Loading data, please wait...</div>
     </template>
 
+    <!-- Failure to load data -->
     <template v-else-if="isError">
       <div class="p-4 text-center text-red-500">
         Failed to load data.
@@ -15,6 +17,7 @@
       </div>
     </template>
 
+    <!-- Show gridlayout or singular element -->
     <template v-else-if="!shouldShowFallback || hasData">
       <!-- If a non-empty layout was provided, use the grid-based layout -->
       <GridLayout v-if="props.layout?.length" :layout="props.layout" :items="dataItems">
@@ -24,6 +27,7 @@
       <BlockRenderer v-else :items="dataItems"/>
     </template>
 
+    <!-- fallback text -->
     <template v-else>
       <div class="fallback-message p-4 text-center text-gray-500">
         Please provide an items array of objects or API endpoint to obtain data from.
@@ -34,11 +38,11 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import type {BlockItem, WrapperProps} from './types';
-import {fetchItems} from './services/api';
+import type {BlockItem, WrapperProps} from '../types';
+import {fetchItems} from '../services/api';
 
-import GridLayout from './components/GridLayout.vue';
-import BlockRenderer from './components/BlockRenderer.vue';
+import GridLayout from './GridLayout.vue';
+import BlockRenderer from './BlockRenderer.vue';
 
 const isLoading = ref(false);
 const isError = ref(false);
@@ -57,9 +61,9 @@ onMounted(async () => {
     isError.value = false;
 
     try {
-      const responses = await fetchItems(props.endpoint);
+      const response = await fetchItems(props.endpoint);
       // flat‐map all of their payload arrays into dataItems
-      dataItems.value = responses.flatMap((r) => r.payload);
+      dataItems.value = response.payload;
     } catch (err) {
       console.error('HighchartWrapper: failed to fetch items from', props.endpoint, err);
       isError.value = true;
@@ -81,8 +85,8 @@ async function reloadData() {
   isError.value = false;
 
   try {
-    const responses = await fetchItems(props.endpoint);
-    dataItems.value = responses.flatMap((r) => r.payload);
+    const response = await fetchItems(props.endpoint);
+    dataItems.value = response.payload;
   } catch (err) {
     console.error('HighchartWrapper: failed to refetch items from', props.endpoint, err);
     isError.value = true;

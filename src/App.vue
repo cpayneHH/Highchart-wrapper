@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import HighchartWrapper from './HighchartWrapper.vue';
-import {BlockItem} from "./types";
+import HighchartWrapper from './components/HighchartWrapper.vue';
+import {BlockItem, LayoutGrid} from "./types";
 
-const layout = [[2, 1], [1, 1, 1], [1, 2], [2, 1], [3]];
+const layout: LayoutGrid = [[2, 1], [1, 1, 1], [1, 2], [2, 1], [3]];
 const items: BlockItem[] = [
   {
     id: 1,

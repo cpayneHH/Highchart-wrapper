@@ -1,7 +1,7 @@
 // src/services/api.ts
-import type { APIResponse } from '../types';
+import type {APIResponse} from '../types';
 
-export async function fetchItems(endpoint: string): Promise<APIResponse[]> {
+export async function fetchItems(endpoint: string): Promise<APIResponse> {
     const res = await fetch(endpoint);
 
     if (!res.ok) {
@@ -9,5 +9,5 @@ export async function fetchItems(endpoint: string): Promise<APIResponse[]> {
     }
 
     const json = await res.json();
-    return json as APIResponse[];
+    return json as APIResponse;
 }

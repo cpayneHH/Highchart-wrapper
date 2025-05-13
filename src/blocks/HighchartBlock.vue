@@ -1,5 +1,8 @@
 <template>
-  <Chart :highcharts="Highcharts" :options="sanitizedOptions" class="dashboard-tile-shadow"/>
+  <Chart :highcharts="Highcharts"
+         :options="sanitizedOptions"
+         class="highcharts-block dashboard-tile-shadow"
+         data-testid="chart"/>
 </template>
 
 <script setup lang="ts">

@@ -1,35 +1,54 @@
 <template>
-  <div v-for="(row, rowIndex) in props.layout" :key="rowIndex" class="row">
+  <div class="grid-layout" data-testid="grid-layout">
     <div
-        v-for="(el, id) in getContentRowData(rowIndex, row.length)"
-        class="my-2"
-        :class="'col-lg-' + getColNum(row, id)"
+        v-for="(row, rowIndex) in props.layout"
+        :key="rowIndex"
+        class="row"
+        data-testid="row"
     >
-      <BlockRenderer :items="[el]"/>
+      <div
+          v-for="(blockWidth, colIndex) in row"
+          :key="colIndex"
+          class="my-2"
+          :class="'col-lg-' + getColNum(row, colIndex)"
+          data-testid="col"
+      >
+        <BlockRenderer :items="[getContentRowData(rowIndex, row.length)[colIndex]]"/>
+      </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import type {GridLayoutProps} from '../types';
+<script setup lang="ts">
+import {defineProps, PropType} from 'vue';
 import BlockRenderer from './BlockRenderer.vue';
+import type {BlockItem, LayoutGrid} from '../types';
 
-const props = defineProps<GridLayoutProps>();
-const emit = defineEmits<{
-  (e: 'update:modelValue'): void;
-}>();
+const props = defineProps({
+  items: {
+    type: Array as PropType<BlockItem[]>,
+    default: () => [],
+  },
+  layout: {
+    type: Array as PropType<LayoutGrid[]>,
+    required: true,
+  },
+});
 
-const getContentRowData = (idRow, rowLength) => {
-  // Step 1: Start of array. Create ones dimension array from layout, cut it by the rows id and get length.
-  const start = [].concat(...props.layout.slice(0, idRow)).length;
-  // Step 2: End of array.
+function getContentRowData(rowIndex: number, rowLength: number): BlockItem[] {
+  const start = rowIndex * rowLength;
   const end = start + rowLength;
+
+  if (!Array.isArray(props.items) || props.items.length === 0) {
+    return [];
+  }
+
   return props.items.slice(start, end);
-};
+}
 
 function getColNum(row: number[], index: number): number {
   const gridColumns = 12;
-  const totalUnits = row.reduce((a, b) => a + b, 0);
-  return (gridColumns / totalUnits) * row[index];
+  const totalUnits = row.reduce((a, b) => a + b, 0) || 1;
+  return Math.floor((gridColumns / totalUnits) * row[index]);
 }
 </script>

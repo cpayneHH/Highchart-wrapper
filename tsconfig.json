@@ -1,22 +1,39 @@
 {
   "compilerOptions": {
-    // Emit declarations only, into dist/
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
-
-    // Target modern JS so you get flatMap, etc.
     "target": "ES2020",
-    "lib": ["ES2020", "DOM"],
-
-    // Use native ESM and Node-style resolution for `import 'vue'`
-    "module": "es6",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "module": "ESNext",
+    // Use "ESNext" for best compatibility with modern tooling
     "moduleResolution": "node",
-
-    // Allow default-import interop and skip checking @types for speed
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    // Keep these for aliases
+    "paths": {
+      "@mocks/*": [
+        "tests/mocks/*"
+      ],
+      "@types": [
+        "src/types.ts"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ]
+    }
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "tests",
+    // <== Include your test files (needed for MSW types, etc.)
+    "vitest.config.ts"
+    // Optional but helpful for intellisense
+  ]
 }
