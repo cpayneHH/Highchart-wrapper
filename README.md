@@ -2,7 +2,6 @@
 
 [![Build & Test](https://github.com/Homewood-Health/interactive-js-highcharts/actions/workflows/ci.yml/badge.svg)](https://github.com/Homewood-Health/interactive-js-highcharts/actions/workflows/ci.yml)
 [![Coverage Status](https://codecov.io/gh/Homewood-Health/interactive-js-highcharts/branch/main/graph/badge.svg)](https://codecov.io/gh/Homewood-Health/interactive-js-highcharts)
-[![License](https://img.shields.io/npm/l/highchart-wrapper.svg)](LICENSE)
 
 A lightweight Vue 3 component that simplifies the integration of Highcharts into your page layouts. It supports dynamic
 data sources, including remote APIs, and allows for conditional loading of Highcharts modules to optimize performance.
