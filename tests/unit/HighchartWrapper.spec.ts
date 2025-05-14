@@ -182,7 +182,7 @@ describe('HighchartWrapper Component Tests', () => {
     it('T010 - Error & Retry: shows error and retries fetch', async () => {
         // Mock server to throw
         server.use(
-            http.get('/api/v1/blocks/retrieve', () => HttpResponse.error())
+            http.get('/api/v1/blocks/retrieve', ({request, params, cookies}) => HttpResponse.error())
         );
 
         render(HighchartWrapper, {props: {endpoint: '/api/v1/blocks/retrieve'}});

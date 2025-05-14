@@ -1,7 +1,7 @@
 <template>
   <div class="highcharts-block dashboard-tile-shadow"
        role="region"
-       :aria-label="sanitizedOptions?.title?.text || sanitizedOptions?.title"
+       :aria-label="sanitizedOptions?.title?.text || ''"
        data-testid="chart-region">
 
     <Chart :highcharts="Highcharts"
