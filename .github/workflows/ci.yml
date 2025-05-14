@@ -29,8 +29,5 @@ jobs:
           files: coverage/lcov.info
           fail_ci_if_error: true
 
-      - name: Run Tests
-        run: yarn test
-
       - name: Build Library
         run: yarn build
