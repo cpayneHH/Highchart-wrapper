@@ -1,0 +1,318 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HighchartWrapper Component Tests > T001 - Snapshot: Full dashboard layout 1`] = `
+<div>
+  <div
+    class="highchart-wrapper container"
+  >
+    <!-- Always show the title title -->
+    <h2
+      aria-roledescription="Dashboard Snapshot"
+      role="heading"
+    >
+      Dashboard Snapshot
+    </h2>
+    <!-- isLoading data -->
+    
+    <!-- Show gridlayout or singular element -->
+    <!-- If a non-empty layout was provided, use the grid-based layout -->
+    <div
+      class="grid-layout"
+      data-testid="grid-layout"
+    >
+      
+      <div
+        class="row"
+        data-testid="row"
+      >
+        
+        <div
+          class="my-2 col-lg-8"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Symptom Severity Change"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Addiction Medicine Program"
+              class="callout-block w-100 d-flex align-items-center justify-content-center dashboard-tile-height"
+              data-testid="callout"
+              role="region"
+            >
+              <div
+                class="px-4"
+              >
+                <div
+                  class="text-mulberry-dark font-size-md pb-2"
+                >
+                  Addiction Medicine Program
+                </div>
+                <div
+                  class="text-grey-darkest font-size-xs"
+                >
+                  Combines 24/7 medical care with a highly structured program using proven therapies for behavioural change over six weeks
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      <div
+        class="row"
+        data-testid="row"
+      >
+        
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-roledescription="-35%"
+              class="title-block w-100 d-flex align-items-center justify-content-center dashboard-tile-height dashboard-tile-shadow"
+              data-testid="title"
+              role="region"
+            >
+              <div
+                class="px-4"
+              >
+                <h1
+                  class="display-4 fw-bold header text-center"
+                >
+                  -35%
+                </h1>
+                <div
+                  class="text small fw-light text-center"
+                >
+                  Average Score Improvement
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-roledescription="8"
+              class="title-block w-100 d-flex align-items-center justify-content-center dashboard-tile-height dashboard-tile-shadow"
+              data-testid="title"
+              role="region"
+            >
+              <div
+                class="px-4"
+              >
+                <h1
+                  class="display-4 fw-bold header text-center"
+                >
+                  8
+                </h1>
+                <div
+                  class="text small fw-light text-center"
+                >
+                  # of Patient that Complete Assessment
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Assessment Scores by Assessment Number"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      <div
+        class="row"
+        data-testid="row"
+      >
+        
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Patient by # of Assessment Completed"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          class="my-2 col-lg-8"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Addiction Medicine Program – Substance Use"
+              class="callout-block w-100 d-flex align-items-center justify-content-center dashboard-tile-height"
+              data-testid="callout"
+              role="region"
+            >
+              <div
+                class="px-4"
+              >
+                <div
+                  class="text-mulberry-dark font-size-md pb-2"
+                >
+                  Addiction Medicine Program – Substance Use
+                </div>
+                <div
+                  class="text-grey-darkest font-size-xs"
+                >
+                  This concurrent (co-occurring) program allows individuals time to fully explore the intersection of their mental health and substance use issues while learning skills they need for lasting recovery. The connections between mental health and substance use can be complex, and both issues deserve and require evidence-based therapies to support recovery and wellness.
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      <div
+        class="row"
+        data-testid="row"
+      >
+        
+        <div
+          class="my-2 col-lg-8"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Patient by # of Assessment Completed"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        <div
+          class="my-2 col-lg-4"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Recovery"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      <div
+        class="row"
+        data-testid="row"
+      >
+        
+        <div
+          class="my-2 col-lg-12"
+          data-testid="col"
+        >
+          <div
+            data-testid="block-renderer"
+          >
+            
+            <div
+              aria-label="Symptom Severity Flow"
+              class="highcharts-block dashboard-tile-shadow"
+              data-testid="chart-region"
+              role="region"
+            >
+              <div
+                data-testid="chart"
+              />
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
+`;

@@ -1,8 +1,13 @@
 <template>
-  <Chart :highcharts="Highcharts"
-         :options="sanitizedOptions"
-         class="highcharts-block dashboard-tile-shadow"
-         data-testid="chart"/>
+  <div class="highcharts-block dashboard-tile-shadow"
+       role="region"
+       :aria-label="sanitizedOptions?.title?.text || sanitizedOptions?.title"
+       data-testid="chart-region">
+
+    <Chart :highcharts="Highcharts"
+           :options="sanitizedOptions"
+           data-testid="chart"/>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,19 +1,19 @@
 import {afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
-import {render, waitFor, within} from '@testing-library/vue';
+import {render, screen, waitFor, within} from '@testing-library/vue';
 import '@testing-library/jest-dom';
 import HighchartWrapper from '@components/HighchartWrapper.vue';
-import {server} from "@mocks/server";
-import APIresponseSingle from '../mocks/api.response.block.json'
+import {server} from '@mocks/server';
+import Highcharts from '@mocks/highcharts';
+import APIResponseSingle from '@mocks/api.response.block.json';
+import APIResponseMultiple from '@mocks/api.response.blocks.json';
 import {BlockItem} from '@types';
+import {http, HttpResponse} from 'msw';
 
-describe('HighchartWrapper', () => {
-
+describe('HighchartWrapper Component Tests', () => {
     const requests: Request[] = [];
 
-    vi.mock('highcharts', async () => {
-        return await import('../mocks/highcharts');
-    });
-
+    // Mock Highcharts and its modules
+    vi.mock('highcharts', async () => await import('../mocks/highcharts'));
     vi.mock('highcharts/modules/pattern-fill');
     vi.mock('highcharts/modules/exporting');
     vi.mock('highcharts/modules/accessibility');
@@ -21,91 +21,251 @@ describe('HighchartWrapper', () => {
     vi.mock('highcharts/modules/funnel');
 
     beforeAll(() => {
-        server.events.on('request:match', (req) => {
-            requests.push(req.request);
-        });
+        server.events.on('request:match', (req) => requests.push(req.request));
     });
 
     afterEach(() => {
-        requests.length = 0; // clear after each test
+        // Clear tracked requests and mock calls
+        requests.length = 0;
+        Highcharts.chart.mockClear();
     });
 
-    it('Top-level title is optional', () => {
-        const rendered = render(HighchartWrapper, {
-            props: {title: null, endpoint: null, items: null, layout: null},
-        });
-
-        const titleIsMissing = rendered.container.querySelector('H2');
-        expect(titleIsMissing).toBeNull();
-    });
-
-    it("Renders fallback when items, or api endpoint isn't provided", () => {
-        const rendered = render(HighchartWrapper, {
-            props: {title: null, endpoint: null, items: null, layout: null},
-        });
-        const fallbackText = 'Please provide an items array of objects or API endpoint to obtain data from.';
-        const fallbackElement = rendered.container.querySelector('.fallback-message');
-
-        within(<HTMLElement>fallbackElement).getByText(fallbackText);
-    });
-
-    it('Endpoint is provided - displays blocks as retrieved', async () => {
-        // Full example block list
-        const rendered = render(HighchartWrapper, {
-            props: {endpoint: '/api/v1/blocks/retrieve', layout: [[2, 1], [1, 1, 1], [1, 2], [2, 1], [3]]},
-        });
-
-        await waitFor(async () => {
-            // Make sure the request was captured.
-            expect(requests.length).toBeGreaterThan(0);
-
-            // Correct request was tracked for the test.
-            const req = requests.find(r => r.url.includes('/api/v1/blocks/retrieve'));
-            expect(req).toBeDefined();
-
-            // // GridLayout component was used
-            // const gridLayout = screen.getByTestId('grid-layout');
-            //
-            // // Make sure it's rendering the correct number of rows
-            // const rows = await within(gridLayout).findAllByTestId('row');
-            // expect(rows).toHaveLength(5);
-            //
-            // // Make sure it's rendering the correct number of columns
-            // const columns = await within(gridLayout).findAllByTestId('col');
-            // expect(columns).toHaveLength(10);
-            //
-            // // Check for the correct number of title blocks rendered
-            // const title = await within(gridLayout).findAllByTestId('title');
-            // expect(title).toHaveLength(2);
-            //
-            // // Check for the correct number of callout blocks rendered.
-            // const callout = await within(gridLayout).findAllByTestId('callout');
-            // expect(callout).toHaveLength(2);
-            //
-            // expect(Highcharts.chart).toHaveBeenCalled();
-            // expect(Highcharts.chart).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
-            //     title: expect.objectContaining({text: 'Some Title'})
-            // }));
-            //
-            // // Check for the correct number of charts rendered
-            // const charts = await within(gridLayout).findAllByTestId('chart');
-            // expect(charts).toHaveLength(6);
-        });
-    });
-
-
-    it('Items prop is provided - display singular block chart', () => {
-        const rendered = render(HighchartWrapper, {
+    // Snapshot Test
+    it('T001 - Snapshot: Full dashboard layout', async () => {
+        const {container} = render(HighchartWrapper, {
             props: {
-                title: 'Highcharts Wrapper Example',
-                items: [APIresponseSingle.payload[0]] as BlockItem[],
+                title: 'Dashboard Snapshot',
+                endpoint: '/api/v1/blocks/retrieve',
+                layout: [[2, 1], [1, 1, 1], [1, 2], [2, 1], [3]],
+            },
+        });
+
+        // Wait for all chart blocks to initialize
+        await waitFor(() => {
+            expect(Highcharts.chart).toHaveBeenCalledTimes(
+                APIResponseMultiple.payload.filter(b => b.type === 'chart').length
+            );
+        });
+
+        // Compare rendered output to snapshot
+        expect(container).toMatchSnapshot();
+    });
+
+    // Prop Defaults
+    it('T002 - Default Props: handles missing all props', () => {
+        render(HighchartWrapper);
+
+        // No level-2 heading when title omitted
+        expect(screen.queryByRole('heading', {level: 2})).not.toBeInTheDocument();
+
+        // Fallback message appears
+        expect(
+            screen.getByText(
+                'Please provide an items array of objects or API endpoint to obtain data from.'
+            )
+        ).toBeInTheDocument();
+    });
+
+    // Partial Props
+    it('T003 - Partial Props: title undefined, renders provided item', async () => {
+        render(HighchartWrapper, {
+            props: {
+                items: [APIResponseSingle.payload[0]] as BlockItem[],
+                layout: null,
             }
         });
 
-        const heading = rendered.container.querySelector('h2');
-        within(heading).getByText('Highcharts Wrapper Example');
+        // No heading rendered
+        expect(screen.queryByRole('heading', {level: 2})).not.toBeInTheDocument();
 
-        const chartWrapper = rendered.container.querySelector('[role="region"]');
-        expect(<HTMLElement>chartWrapper).toBeDefined();
+        // Chart stub should appear
+        const chart = await screen.findByTestId('chart');
+        expect(chart).toBeInTheDocument();
+        expect(Highcharts.chart).toHaveBeenCalled();
     });
+
+    it('T004 - Fetch via Endpoint: layout undefined', async () => {
+        render(HighchartWrapper, {props: {endpoint: '/api/v1/blocks/retrieve'}});
+
+        // Wait for all charts
+        await waitFor(() => {
+            expect(Highcharts.chart).toHaveBeenCalledTimes(
+                APIResponseMultiple.payload.filter(b => b.type === 'chart').length
+            );
+        });
+    });
+
+    // Title Rendering
+    it('T005 - Title Rendering: no h2 when title is null', () => {
+        render(HighchartWrapper, {
+            props: {title: null, endpoint: null, items: null, layout: null},
+        });
+
+        expect(
+            screen.queryByRole('heading', {level: 2})
+        ).not.toBeInTheDocument();
+    });
+
+    it('T006 - Title Rendering: renders h2 when title provided', () => {
+        render(HighchartWrapper, {props: {title: 'My Title', items: [], layout: []}});
+
+        expect(
+            screen.getByRole('heading', {level: 2, name: 'My Title'})
+        ).toBeInTheDocument();
+    });
+
+    // Fallback UI
+    it('T007 - Fallback UI: shows message when no items or endpoint', () => {
+        const {container} = render(HighchartWrapper, {
+            props: {title: null, endpoint: null, items: null, layout: null},
+        });
+
+        const fallback = container.querySelector('.fallback-message');
+        within(<HTMLElement>fallback).getByText(
+            'Please provide an items array of objects or API endpoint to obtain data from.'
+        );
+    });
+
+    // Full Endpoint-driven Render
+    it('T008 - Full Render: displays grid and blocks from endpoint', async () => {
+        render(HighchartWrapper, {
+            props: {
+                endpoint: '/api/v1/blocks/retrieve',
+                layout: [[2, 1], [1, 1, 1], [1, 2], [2, 1], [3]],
+            }
+        });
+
+        await waitFor(() => {
+            // Verify network request
+            expect(requests.length).toBeGreaterThan(0);
+            const req = requests.find(r => r.url.includes('/api/v1/blocks/retrieve'));
+            expect(req).toBeDefined();
+        });
+
+        // Inspect grid layout
+        const grid = screen.getByTestId('grid-layout');
+
+        // Rows count
+        const rows = await within(grid).findAllByTestId('row');
+        expect(rows).toHaveLength(5);
+
+        // Columns count
+        const cols = await within(grid).findAllByTestId('col');
+        expect(cols).toHaveLength(10);
+
+        // Title and callout counts
+        const titles = await within(grid).findAllByTestId('title');
+        expect(titles).toHaveLength(2);
+        const callouts = await within(grid).findAllByTestId('callout');
+        expect(callouts).toHaveLength(2);
+
+        // Charts rendered
+        expect(Highcharts.chart).toHaveBeenCalled();
+        const charts = await within(grid).findAllByTestId('chart');
+        expect(charts).toHaveLength(6);
+    });
+
+    // Single-item Render
+    it('T009 - Single Item: renders one chart via items prop', () => {
+        const {container} = render(HighchartWrapper, {
+            props: {title: 'Single Chart', items: [APIResponseSingle.payload[0]] as BlockItem[]}
+        });
+
+        // Verify heading text
+        within(container.querySelector('h2')!).getByText('Single Chart');
+
+        // Container role
+        expect(container.querySelector('[role="region"]')).toBeDefined();
+    });
+
+    // Error Handling
+    it('T010 - Error & Retry: shows error and retries fetch', async () => {
+        // Mock server to throw
+        server.use(
+            http.get('/api/v1/blocks/retrieve', () => HttpResponse.error())
+        );
+
+        render(HighchartWrapper, {props: {endpoint: '/api/v1/blocks/retrieve'}});
+
+        // Error state appears
+        const errMsg = await screen.findByText(/Failed to load data/i);
+        expect(errMsg).toBeInTheDocument();
+
+        // Mock success on retry
+        server.use(
+            http.get('/api/v1/blocks/retrieve', () => HttpResponse.json(APIResponseSingle))
+        );
+
+        // Click retry
+        const retryBtn = screen.getByRole('button', {name: /Retry/i});
+        await retryBtn.click();
+
+        // Ensure error cleared and chart called
+        await waitFor(() => {
+            expect(screen.queryByText(/Failed to load data/i)).not.toBeInTheDocument();
+            expect(Highcharts.chart).toHaveBeenCalled();
+        });
+    });
+
+    // Layout Overflow/Underflow
+    it('T011 - Layout Overflow: ignores extra items beyond layout slots', async () => {
+        render(HighchartWrapper, {
+            props: {
+                items: [
+                    APIResponseMultiple.payload[0],
+                    APIResponseMultiple.payload[0],
+                    APIResponseMultiple.payload[0]
+                ] as BlockItem[],
+                layout: [[1, 1], [1]]
+            }
+        });
+
+        const grid = screen.getByTestId('grid-layout');
+        const cols = await within(grid).findAllByTestId('col');
+        expect(cols).toHaveLength(3);
+        expect(Highcharts.chart).toHaveBeenCalledTimes(3);
+    });
+
+    it('T012 - Layout Underflow: only renders available items', async () => {
+        render(HighchartWrapper, {
+            props: {
+                items: [APIResponseSingle.payload[0]] as BlockItem[],
+                layout: [[1, 1, 1]]
+            }
+        });
+
+        const grid = screen.getByTestId('grid-layout');
+        const charts = await within(grid).findAllByTestId('chart');
+        expect(charts).toHaveLength(1);
+        expect(Highcharts.chart).toHaveBeenCalledTimes(1);
+    });
+
+    it('T013 - Option Sanitization: strips axes and pointStart for non-axis charts', async () => {
+        const pieBlock: BlockItem = {
+            id: 11,
+            type: 'chart',
+            title: 'Pie Chart',
+            options: {
+                chart: {type: 'pie'},
+                xAxis: {title: {text: 'REMOVE ME'}},
+                yAxis: {title: {text: 'REMOVE ME TOO'}},
+                plotOptions: {series: {pointStart: 5}},
+                series: [{type: 'pie', name: 'A', data: [1, 2, 3]}],
+            },
+        };
+
+        Highcharts.chart.mockClear();
+        render(HighchartWrapper, {
+            props: {items: [pieBlock], layout: null}
+        });
+
+        // Wait for chart initialization
+        await waitFor(() => expect(Highcharts.chart).toHaveBeenCalled());
+
+        const opts = Highcharts.chart.mock.calls[0][1];
+        expect(opts.xAxis).toBeUndefined();
+        expect(opts.yAxis).toBeUndefined();
+        expect(opts.plotOptions?.series?.pointStart).toBeUndefined();
+    });
+
 });

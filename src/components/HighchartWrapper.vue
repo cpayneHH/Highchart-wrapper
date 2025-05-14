@@ -2,7 +2,7 @@
 <template>
   <div class="highchart-wrapper container">
     <!-- Always show the title title -->
-    <h2 v-if="props?.title">{{ props.title }}</h2>
+    <h2 v-if="props?.title" role="heading" :aria-roledescription="props.title">{{ props.title }}</h2>
 
     <!-- isLoading data -->
     <template v-if="isLoading">

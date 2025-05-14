@@ -1,50 +1,53 @@
 <template>
   <div class="grid-layout" data-testid="grid-layout">
     <div
-        v-for="(row, rowIndex) in props.layout"
+        v-for="(row, rowIndex) in layout"
         :key="rowIndex"
         class="row"
         data-testid="row"
     >
       <div
-          v-for="(blockWidth, colIndex) in row"
+          v-for="(width, colIndex) in row"
           :key="colIndex"
           class="my-2"
           :class="'col-lg-' + getColNum(row, colIndex)"
           data-testid="col"
       >
-        <BlockRenderer :items="[getContentRowData(rowIndex, row.length)[colIndex]]"/>
+        <BlockRenderer v-if="flattenedItems[rowOffsets[rowIndex] + colIndex]"
+                       :items="[flattenedItems[rowOffsets[rowIndex] + colIndex]]"/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {defineProps, PropType} from 'vue';
+import {computed, PropType} from 'vue';
 import BlockRenderer from './BlockRenderer.vue';
-import type {BlockItem, LayoutGrid} from '../types';
+import type {BlockItem, LayoutGrid} from '@types';
 
 const props = defineProps({
-  items: {
-    type: Array as PropType<BlockItem[]>,
-    default: () => [],
-  },
   layout: {
     type: Array as PropType<LayoutGrid[]>,
-    required: true,
+    required: true
   },
+  items: {
+    type: Array as PropType<BlockItem[]>,
+    default: () => []
+  }
 });
 
-function getContentRowData(rowIndex: number, rowLength: number): BlockItem[] {
-  const start = rowIndex * rowLength;
-  const end = start + rowLength;
-
-  if (!Array.isArray(props.items) || props.items.length === 0) {
-    return [];
+// Flatten layout to track where each row starts
+const rowOffsets = computed(() => {
+  const offsets: number[] = [];
+  let current = 0;
+  for (const row of props.layout) {
+    offsets.push(current);
+    current += row.length;
   }
+  return offsets;
+});
 
-  return props.items.slice(start, end);
-}
+const flattenedItems = computed(() => props.items ?? []);
 
 function getColNum(row: number[], index: number): number {
   const gridColumns = 12;
