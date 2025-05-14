@@ -17,5 +17,36 @@ export default defineConfig({
         globals: true,
         environment: 'jsdom',
         setupFiles: './tests/setup.ts',
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'lcov', 'html'],
+            reportsDirectory: 'coverage',
+            exclude: [
+                'node_modules/**',
+                'dist/**',
+                '.yarn/**',
+
+                // config, scripts, typings
+                '**/*.d.ts',
+                '*.config.*',
+                '.eslintrc.*',
+                'vite.config.*',
+                'vitest.config.*',
+                'rollup.config.*',
+                'package.json',
+                'yarn.lock',
+
+                // test files and mocks
+                'tests/**',
+                'tests/**/*.spec.*',
+                'tests/mocks/**',
+
+                // bootstrapping & typings you don’t need coverage on:
+                'src/main.ts',
+                'src/App.vue',
+                'src/types.ts',
+                'src/index.ts',
+            ]
+        }
     },
 });
