@@ -6,7 +6,7 @@ export type APIEndpoint = string;
 /**
  * Defines an array where each row is an array of column spans. e.g. [ [1, 1], [1] ]
  */
-export type LayoutGrid = number[];
+export type LayoutGrid = number[][];
 
 /**
  * Options for rendering a callout block with title and description.
@@ -77,7 +77,7 @@ export interface APIResponse {
  * Props for the GridLayout component.
  */
 export interface GridLayoutProps {
-    layout: LayoutGrid[];
+    layout: LayoutGrid;
     items: BlockItem[];
 }
 
@@ -88,5 +88,5 @@ export interface WrapperProps {
     title?: string;
     endpoint?: APIEndpoint;
     items?: BlockItem[];
-    layout?: LayoutGrid[] | null;
+    layout?: LayoutGrid | null;
 }

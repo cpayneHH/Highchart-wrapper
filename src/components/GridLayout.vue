@@ -27,7 +27,7 @@ import type {BlockItem, LayoutGrid} from '@types';
 
 const props = defineProps({
   layout: {
-    type: Array as PropType<LayoutGrid[]>,
+    type: Array as PropType<LayoutGrid>,
     default: () => []
   },
   items: {
