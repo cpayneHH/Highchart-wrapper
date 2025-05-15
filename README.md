@@ -22,6 +22,12 @@ Install the package via npm:
 yarn add ../Highchart-wrapper
 ```
 
+or once it's been added to npm, we still need to set that up, as a Homewood Health package we can use the following:
+
+```bash
+yarn add @HomewoodHealth/Highchart-wrapper
+```
+
 ## 🛠️ Usage
 
 Import and register the component in your Vue application:
